@@ -1,33 +1,24 @@
 package org.example;
 
+import java.io.*;
+
 public class Main {
-    public static void main(String[] args) {
-        /*Browser.getBrowser().displayMessage();
-        System.out.println("Hello world!");*/
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
 
-        Runnable task = () -> Browser.getBrowser().displayMessage();
+        Browser instance1 = Browser.getBrowser();
 
-        Thread thread1 = new Thread(task);
-        Thread thread2 = new Thread(task);
-        Thread thread3 = new Thread(task);
-        Thread thread4 = new Thread(task);
-        Thread thread5 = new Thread(task);
+        // Serialization the Browser instance
+        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("browser.json"));
+        out.writeObject(instance1);
+        out.close();
 
-        thread1.start();
-        thread2.start();
-        thread3.start();
-        thread4.start();
-        thread5.start();
+        // De-Serialization the Browser instance
+        ObjectInputStream in = new ObjectInputStream(new FileInputStream("browser.json"));
+        Browser instance2 = (Browser) in.readObject();
+        in.close();
 
-        try {
-            thread1.join();
-            thread2.join();
-            thread3.join();
-            thread4.join();
-            thread5.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        System.out.println("Instance 1 hash code "+ instance1.hashCode());
+        System.out.println("Instance 2 hash code "+ instance2.hashCode());
 
     }
 }
