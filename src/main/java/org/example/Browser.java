@@ -1,9 +1,9 @@
 package org.example;
 
-public class Browser {
+public class Browser implements Cloneable {
 
     // 1. Private static instance of the class
-    private   static Browser browser;
+    private static Browser browser;
 
     // 2. private constructor of the class
     private Browser() {
@@ -13,7 +13,7 @@ public class Browser {
     // 3. public static getInstance method
     public static Browser getBrowser() {
         if (browser == null) {
-            synchronized (Browser.class){
+            synchronized (Browser.class) {
                 if (browser == null) {
                     browser = new Browser();
                 }
@@ -23,9 +23,14 @@ public class Browser {
     }
 
     // 4. Individual public method
-    public void displayMessage(){
+    public void displayMessage() {
         System.out.println("Hi Singleton");
     }
 
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        throw new CloneNotSupportedException("singleton instance can not be cloned");
+
+    }
 
 }
