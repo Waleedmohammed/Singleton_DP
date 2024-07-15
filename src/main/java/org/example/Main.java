@@ -1,33 +1,21 @@
 package org.example;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 public class Main {
-    public static void main(String[] args) {
-        /*Browser.getBrowser().displayMessage();
-        System.out.println("Hello world!");*/
+    public static void main(String[] args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
 
-        Runnable task = () -> Browser.getBrowser().displayMessage();
+        // Reflection can hack Singleton pattern (Reflection Attack)
 
-        Thread thread1 = new Thread(task);
-        Thread thread2 = new Thread(task);
-        Thread thread3 = new Thread(task);
-        Thread thread4 = new Thread(task);
-        Thread thread5 = new Thread(task);
+        Browser instance1 = Browser.getBrowser();
+        Browser instance2 ;
 
-        thread1.start();
-        thread2.start();
-        thread3.start();
-        thread4.start();
-        thread5.start();
-
-        try {
-            thread1.join();
-            thread2.join();
-            thread3.join();
-            thread4.join();
-            thread5.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        Constructor<Browser> constructor = Browser.class.getDeclaredConstructor();
+        constructor.setAccessible(true);
+        instance2= constructor.newInstance();
+        System.out.println("hashcode of instance 1"+ instance1.hashCode());
+        System.out.println("hashcode of instance 2"+ instance2.hashCode());
 
     }
 }

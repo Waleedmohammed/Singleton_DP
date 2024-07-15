@@ -8,6 +8,10 @@ public class Browser {
     // 2. private constructor of the class
     private Browser() {
 
+        // here we are securing Singleton pattern from Reflection hacking
+        if (browser !=null){
+            throw  new IllegalArgumentException("Object already Exist");
+        }
     }
 
     // 3. public static getInstance method
